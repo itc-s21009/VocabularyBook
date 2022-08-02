@@ -13,6 +13,7 @@ class WordListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWordListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        title = intent.getStringExtra("CATEGORY")
         binding.lvWordList.adapter = ArrayAdapter(
             this@WordListActivity,R.layout.word_row, wordsList)
     }
