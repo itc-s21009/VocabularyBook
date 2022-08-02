@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">VocabularyBook</string>
+    <string name="bt_back">戻る</string>
+    <string name="bt_search">検索</string>
+    <string name="bt_add">+</string>
 </resources>
