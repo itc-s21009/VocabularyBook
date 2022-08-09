@@ -5,16 +5,17 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
-class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseHelper(context: Context) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
-        private const val DATABASE_NAME = "20220804.db"
+        private const val DATABASE_NAME = "data.db"
         private const val DATABASE_VERSION = 1
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         var sql = """
             |CREATE TABLE cate_table (
-            |  cate_number INTEGER PRIMARY KEY,
+            |  cate_number INTEGER PRIMARY KEY AUTOINCREMENT,
             |  cate_name CHAR(32)
             |)
         """.trimMargin()
@@ -23,7 +24,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         sql = """
             |CREATE TABLE word_table (
             |  cate_number INTEGER,
-            |  word_id INTEGER PRIMARY KEY,
+            |  word_id INTEGER PRIMARY KEY AUTOINCREMENT,
             |  word CHAR(32)
             |)
         """.trimMargin()
@@ -32,7 +33,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         sql = """
             |CREATE TABLE translation_table (
             |  word_id INTEGER,
-            |  language_id INTEGER PRIMARY KEY,
+            |  language_id INTEGER PRIMARY KEY AUTOINCREMENT,
             |  language_mean CHAR(32),
             |  language INTEGER
             |)
@@ -41,7 +42,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
 
         sql = """
             |CREATE TABLE language_table (
-            |  language_id INTEGER PRIMARY KEY,
+            |  language_id INTEGER PRIMARY KEY AUTOINCREMENT,
             |  language_name CHAR(32)
             |)
         """.trimMargin()
@@ -52,7 +53,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
     }
 
-    fun getCategoryList() : List<Category> {
+    fun getCategoryList(): List<Category> {
         val list = mutableListOf<Category>()
         val sql = "SELECT * FROM cate_table"
         val cursor = readableDatabase.rawQuery(sql, null)
@@ -82,5 +83,113 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         }
         cursor.close()
         return list
+    }
+
+    fun registerCategory(name: String) {
+        val sql = "INSERT INTO cate_table (cate_number, cate_name) VALUES (?, ?)"
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindLong(1, 0)
+        statement.bindString(2, name)
+        statement.executeInsert()
+    }
+
+    fun deleteCategory(cate_id: Long) {
+        val sql = "DELETE FROM cate_table WHERE cate_number = ?"
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindLong(1, cate_id)
+        statement.executeUpdateDelete()
+    }
+
+    fun findCategoryById(cate_id: Long) : Category? {
+        val sql = "SELECT * FROM cate_table WHERE cate_number = $cate_id"
+        val cursor = readableDatabase.rawQuery(sql, null)
+        return if (cursor.moveToNext()) Category(cursor.getInt(1), cursor.getString(2)) else null
+    }
+
+    fun registerWord(cate_id: Long, word: String) {
+        val sql = "INSERT INTO word_table (cate_number, word_id, word) VALUES (?, ?, ?)"
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindLong(1, cate_id)
+        statement.bindLong(2, 0)
+        statement.bindString(3, word)
+        statement.executeInsert()
+    }
+
+    fun deleteWord(word_id: Long) {
+        val sql = "DELETE FROM word_table WHERE word_id = ?"
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindLong(1, word_id)
+        statement.executeUpdateDelete()
+    }
+
+    fun findWordById(word_id: Long) : Word? {
+        val sql = "SELECT * FROM word_table WHERE word_id = $word_id"
+        val cursor = readableDatabase.rawQuery(sql, null)
+        return if (cursor.moveToNext())
+            Word(cursor.getInt(1),
+                cursor.getInt(2),
+                cursor.getString(3)
+            ) else null
+    }
+
+    fun registerTranslation(word_id: Long, mean: String, language: Long) {
+        val sql = """
+            |INSERT INTO translation_table (
+            |  word_id, 
+            |  language_id,
+            |  language_mean,
+            |  language
+            |) VALUES (?, ?, ?, ?)
+        """.trimMargin()
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindLong(1, word_id)
+        statement.bindLong(2, 0)
+        statement.bindString(3, mean)
+        statement.bindLong(4, language)
+        statement.executeInsert()
+    }
+
+    fun deleteTranslation(translation_id: Long) {
+        val sql = "DELETE FROM translation_table WHERE language_id = ?"
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindLong(1, translation_id)
+        statement.executeUpdateDelete()
+    }
+
+    fun findTranslationById(translation_id: Long) : Translation? {
+        val sql = "SELECT * FROM translation_table WHERE language_id = $translation_id"
+        val cursor = readableDatabase.rawQuery(sql, null)
+        return if (cursor.moveToNext())
+            Translation(
+                cursor.getInt(1),
+                cursor.getInt(2),
+                cursor.getString(3),
+                cursor.getInt(4)
+            ) else null
+    }
+
+    fun registerLanguage(language_name: String) {
+        val sql = "INSERT INTO language_table (language_id, language_name) VALUES (?, ?)"
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindLong(1, 0)
+        statement.bindString(2, language_name)
+        statement.executeInsert()
+    }
+
+    fun deleteLanguage(language_id: Long) {
+        val sql = "DELETE FROM language_table WHERE language_id = ?"
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindLong(1, language_id)
+        statement.executeUpdateDelete()
+    }
+
+    fun findLanguageById(language_id: Long) : Language? {
+        val sql = "SELECT * FROM language_table WHERE language_id = $language_id"
+        val cursor = readableDatabase.rawQuery(sql, null)
+        return if (cursor.moveToNext())
+            Language(
+                cursor.getInt(1),
+                cursor.getString(2)
+            ) else null
     }
 }
