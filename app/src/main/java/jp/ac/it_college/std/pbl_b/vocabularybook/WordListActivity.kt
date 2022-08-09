@@ -1,5 +1,6 @@
 package jp.ac.it_college.std.pbl_b.vocabularybook
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -22,6 +23,11 @@ class WordListActivity : AppCompatActivity() {
             this@WordListActivity,R.layout.word_row, wordsList)
         binding.btBack.setOnClickListener{
             finish()
+        }
+        binding.btSearch.setOnClickListener{
+            val intent = Intent(this, WordSearchActivity::class.java)
+            intent.putExtra("WORD_LIST", wordsList.toTypedArray())
+            startActivity(intent)
         }
     }
 

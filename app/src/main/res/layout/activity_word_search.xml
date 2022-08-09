@@ -10,9 +10,10 @@
         android:id="@+id/btWordSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="@string/bt_search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <ListView
         android:id="@+id/lvSearchResult"
@@ -35,11 +36,12 @@
         android:layout_height="0dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="入力"
-        android:inputType="textMultiLine"
+        android:hint="@string/bt_search"
+        android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="@+id/btWordSearch"
         app:layout_constraintEnd_toStartOf="@+id/btWordSearch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 </androidx.constraintlayout.widget.ConstraintLayout>
