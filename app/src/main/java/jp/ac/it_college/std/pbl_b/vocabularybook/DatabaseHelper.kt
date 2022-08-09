@@ -14,7 +14,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
     override fun onCreate(db: SQLiteDatabase?) {
         var sql = """
             |CREATE TABLE cate_table (
-            |  cate_number INTEGER PRIMARY KEY,
+            |  cate_number INTEGER PRIMARY KEY AUTOINCREMENT,
             |  cate_name CHAR(32)
             |)
         """.trimMargin()
@@ -23,7 +23,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         sql = """
             |CREATE TABLE word_table (
             |  cate_number INTEGER,
-            |  word_id INTEGER PRIMARY KEY,
+            |  word_id INTEGER PRIMARY KEY AUTOINCREMENT,
             |  word CHAR(32)
             |)
         """.trimMargin()
@@ -32,7 +32,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         sql = """
             |CREATE TABLE translation_table (
             |  word_id INTEGER,
-            |  language_id INTEGER PRIMARY KEY,
+            |  language_id INTEGER PRIMARY KEY AUTOINCREMENT,
             |  language_mean CHAR(32),
             |  language INTEGER
             |)
@@ -41,7 +41,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
 
         sql = """
             |CREATE TABLE language_table (
-            |  language_id INTEGER PRIMARY KEY,
+            |  language_id INTEGER PRIMARY KEY AUTOINCREMENT,
             |  language_name CHAR(32)
             |)
         """.trimMargin()
