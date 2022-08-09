@@ -3,10 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1546875" />
         <entry key="app/src/main/res/layout/activity_word_search.xml" value="0.22" />
         <entry key="app/src/main/res/layout/search_result_row.xml" value="0.17798913043478262" />
-        <entry key="app/src/main/res/layout/word_row.xml" value="0.17798913043478262" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_word_list.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/word_row.xml" value="0.33" />
       </map>
     </option>
   </component>

@@ -27,7 +27,7 @@
         app:strokeWidth="@dimen/cardview_default_radius" />
 
     <Button
-        android:id="@+id/btAdd"
+        android:id="@+id/btAddWord"
         android:layout_width="50dp"
         android:layout_height="62.5dp"
         android:layout_marginEnd="16dp"

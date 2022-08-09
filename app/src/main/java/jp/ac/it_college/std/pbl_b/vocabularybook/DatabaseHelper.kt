@@ -57,8 +57,8 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         val sql = "SELECT * FROM cate_table"
         val cursor = readableDatabase.rawQuery(sql, null)
         while (cursor.moveToNext()) {
-            val idxId = cursor.getColumnIndexOrThrow("id")
-            val idxName = cursor.getColumnIndexOrThrow("name")
+            val idxId = cursor.getColumnIndexOrThrow("cate_number")
+            val idxName = cursor.getColumnIndexOrThrow("cate_name")
             val id = cursor.getInt(idxId)
             val name = cursor.getString(idxName)
             val categoryModel = Category(id, name)

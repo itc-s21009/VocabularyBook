@@ -16,10 +16,13 @@ class WordListActivity : AppCompatActivity() {
         setContentView(binding.root)
         val category = intent.getStringExtra("CATE_NAME")
         val categoryId = intent.getIntExtra("CATE_ID", 0)
-        title = "カテゴリ --- $category"
+        title = "${getString(R.string.category)} --- $category"
         val wordsList = helper.getWordsList(categoryId).map { it.word }
         binding.lvWordList.adapter = ArrayAdapter(
             this@WordListActivity,R.layout.word_row, wordsList)
+        binding.btBack.setOnClickListener{
+            finish()
+        }
     }
 
     override fun onDestroy() {
