@@ -86,10 +86,9 @@ class DatabaseHelper(context: Context) :
     }
 
     fun registerCategory(name: String) {
-        val sql = "INSERT INTO cate_table (cate_number, cate_name) VALUES (?, ?)"
+        val sql = "INSERT INTO cate_table (cate_name) VALUES (?)"
         val statement = writableDatabase.compileStatement(sql)
-        statement.bindLong(1, 0)
-        statement.bindString(2, name)
+        statement.bindString(1, name)
         statement.executeInsert()
     }
 
@@ -107,11 +106,10 @@ class DatabaseHelper(context: Context) :
     }
 
     fun registerWord(cate_id: Long, word: String) {
-        val sql = "INSERT INTO word_table (cate_number, word_id, word) VALUES (?, ?, ?)"
+        val sql = "INSERT INTO word_table (cate_number, word) VALUES (?, ?)"
         val statement = writableDatabase.compileStatement(sql)
         statement.bindLong(1, cate_id)
-        statement.bindLong(2, 0)
-        statement.bindString(3, word)
+        statement.bindString(2, word)
         statement.executeInsert()
     }
 
@@ -136,16 +134,14 @@ class DatabaseHelper(context: Context) :
         val sql = """
             |INSERT INTO translation_table (
             |  word_id, 
-            |  language_id,
             |  language_mean,
             |  language
-            |) VALUES (?, ?, ?, ?)
+            |) VALUES (?, ?, ?)
         """.trimMargin()
         val statement = writableDatabase.compileStatement(sql)
         statement.bindLong(1, word_id)
-        statement.bindLong(2, 0)
-        statement.bindString(3, mean)
-        statement.bindLong(4, language)
+        statement.bindString(2, mean)
+        statement.bindLong(3, language)
         statement.executeInsert()
     }
 
@@ -169,10 +165,9 @@ class DatabaseHelper(context: Context) :
     }
 
     fun registerLanguage(language_name: String) {
-        val sql = "INSERT INTO language_table (language_id, language_name) VALUES (?, ?)"
+        val sql = "INSERT INTO language_table (language_name) VALUES (?)"
         val statement = writableDatabase.compileStatement(sql)
-        statement.bindLong(1, 0)
-        statement.bindString(2, language_name)
+        statement.bindString(1, language_name)
         statement.executeInsert()
     }
 

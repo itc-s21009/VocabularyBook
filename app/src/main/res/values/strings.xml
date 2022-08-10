@@ -3,5 +3,8 @@
     <string name="bt_back">戻る</string>
     <string name="bt_search">検索</string>
     <string name="bt_add">+</string>
+    <string name="add">追加</string>
     <string name="category">カテゴリ</string>
+    <string name="category_name">カテゴリ名</string>
+    <string name="empty"></string>
 </resources>
