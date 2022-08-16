@@ -29,6 +29,12 @@ class WordListActivity : AppCompatActivity() {
             intent.putExtra("WORD_LIST", wordsList.toTypedArray())
             startActivity(intent)
         }
+        binding.btAddWord.setOnClickListener{
+            val intent = Intent(this, WordDetailsActivity::class.java)
+            intent.putExtra("CATE_NAME", category)
+            intent.putExtra("CATE_ID", categoryId)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroy() {
