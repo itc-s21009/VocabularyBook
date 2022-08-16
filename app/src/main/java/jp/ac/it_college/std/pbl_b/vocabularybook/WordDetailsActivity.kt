@@ -4,16 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityMainBinding
+import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityWordDetailsBinding
 
-class WordDetails : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class WordDetailsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityWordDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityWordDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val wordId = intent.getIntExtra("WORD_ID", 0)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
