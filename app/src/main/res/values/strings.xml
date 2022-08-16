@@ -10,4 +10,6 @@
     <string name="jp_lang">日本語</string>
     <string name="ch_lang">中国語</string>
     <string name="en_lang">英語</string>
+    <string name="it_remove">削除</string>
+    <string name="it_detail">詳細</string>
 </resources>

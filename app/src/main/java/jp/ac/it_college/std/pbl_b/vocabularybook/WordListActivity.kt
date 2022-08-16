@@ -3,6 +3,8 @@ package jp.ac.it_college.std.pbl_b.vocabularybook
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ContextMenu
+import android.view.View
 import android.widget.ArrayAdapter
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityWordListBinding
 
@@ -37,6 +39,7 @@ class WordListActivity : AppCompatActivity() {
             intent.putExtra("WORD_LIST", wordsList.toTypedArray())
             startActivity(intent)
         }
+        registerForContextMenu(binding.lvWordList)
 //        binding.btAddWord.setOnClickListener{
 //            val intent = Intent(this, WordDetailsActivity::class.java)
 //            intent.putExtra("CATE_NAME", category)
@@ -48,5 +51,15 @@ class WordListActivity : AppCompatActivity() {
     override fun onDestroy() {
         helper.close()
         super.onDestroy()
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.menu_context_word, menu)
+
     }
 }
