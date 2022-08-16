@@ -16,8 +16,7 @@ class WordDetailsActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val category = intent.getStringExtra("CATE_NAME")
-        val categoryId = intent.getIntExtra("CATE_ID", 0)
+        val wordId = intent.getIntExtra("WORD_ID", 0)
 
     }
 
