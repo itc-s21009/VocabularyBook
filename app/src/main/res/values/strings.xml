@@ -1,8 +1,13 @@
 <resources>
-    <string name="app_name">単語帳</string>
-    <string name="backbutton">戻る</string>
+    <string name="app_name">単語帳アプリ</string>
+    <string name="bt_back">戻る</string>
+    <string name="bt_search">検索</string>
+    <string name="bt_add">+</string>
+    <string name="add">追加</string>
+    <string name="category">カテゴリ</string>
+    <string name="category_name">カテゴリ名</string>
+    <string name="empty"></string>
     <string name="jp_lang">日本語</string>
     <string name="ch_lang">中国語</string>
     <string name="en_lang">英語</string>
-    <string name="Button">-></string>
 </resources>
