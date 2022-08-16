@@ -3,7 +3,6 @@ package jp.ac.it_college.std.pbl_b.vocabularybook
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityMainBinding
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityWordDetailsBinding
 
 class WordDetailsActivity : AppCompatActivity() {
@@ -16,7 +15,7 @@ class WordDetailsActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val wordId = intent.getIntExtra("WORD_ID", 0)
+        val wordId = intent.getLongExtra("WORD_ID", 0)
 
     }
 

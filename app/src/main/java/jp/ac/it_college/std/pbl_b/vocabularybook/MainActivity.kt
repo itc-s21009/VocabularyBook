@@ -3,12 +3,8 @@ package jp.ac.it_college.std.pbl_b.vocabularybook
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.PopupWindow
+import android.view.*
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityMainBinding
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.PopupAddCategoryBinding
@@ -19,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val helper = DatabaseHelper(this)
     private lateinit var mPopupWindow: PopupWindow
+    private lateinit var categoryListRaw: List<Category>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         title = getString(R.string.app_name)
         drawCategoryList()
+        registerForContextMenu(binding.lvCategory)
         mPopupWindow = PopupWindow(this@MainActivity)
         val view = PopupAddCategoryBinding.inflate(layoutInflater)
         view.btBack.setOnClickListener {
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 mPopupWindow.dismiss()
             }
         }
-        view.btAddCategoryConfirm.setOnClickListener{
+        view.btAddCategoryConfirm.setOnClickListener {
             val text = view.etAddCategory.text.toString()
             if (text.isEmpty()) {
                 return@setOnClickListener
@@ -67,26 +65,45 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun drawCategoryList() {
-        binding.categoryList.removeAllViews()
-        val categoryList = helper.getCategoryList()
-        categoryList.forEach { category ->
-            val button = Button(this)
-            binding.categoryList.addView(button)
-            button.text = category.name
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.menu_context_category, menu)
+    }
 
-            button.setOnClickListener {
-                val intent = Intent(this@MainActivity, WordListActivity::class.java)
-                intent.putExtra("CATE_ID", category.id)
-                intent.putExtra("CATE_NAME", category.name)
-                startActivity(intent)
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        var returnVal = true
+        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
+        val listPosition = info.position
+        when (item.itemId) {
+            R.id.itRemoveCategory -> {
+                val category = categoryListRaw[listPosition]
+                helper.deleteCategory(category.id.toLong())
+                drawCategoryList()
             }
-            val layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.setMargins(32, 16, 32, 0)
-            button.layoutParams = LinearLayout.LayoutParams(layoutParams)
+            else -> returnVal = super.onContextItemSelected(item)
         }
+        return returnVal
+    }
+
+    private fun drawCategoryList() {
+        categoryListRaw = helper.getCategoryList()
+        val categoryList =  categoryListRaw.map { it.name }
+        binding.lvCategory.adapter = ArrayAdapter(
+            this@MainActivity,R.layout.category_row, categoryList)
+        binding.lvCategory.setOnItemClickListener{ _, _, position, _ ->
+            val category = categoryListRaw[position]
+            showWordListActivity(category)
+        }
+    }
+
+    private fun showWordListActivity(category: Category) {
+        val intent = Intent(this, WordListActivity::class.java)
+        intent.putExtra("CATE_ID", category.id)
+        intent.putExtra("CATE_NAME", category.name)
+        startActivity(intent)
     }
 }
