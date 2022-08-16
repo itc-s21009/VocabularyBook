@@ -2,6 +2,10 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/it_detail" />
-    <item android:title="@string/it_remove" />
+    <item
+        android:id="@+id/itDetail"
+        android:title="@string/it_detail" />
+    <item
+        android:id="@+id/itRemove"
+        android:title="@string/it_remove" />
 </menu>
