@@ -1,24 +1,32 @@
 package jp.ac.it_college.std.pbl_b.vocabularybook
 
-data class Category(
+data class DBCategory(
     val id: Int,
     val name: String
 )
 
-data class Word(
+data class DBWord(
     val cate_id: Int,
     val id: Int,
     val word: String
 )
 
-data class Translation(
+data class DBTranslation(
     val word_id: Int,
     val id: Int,
     val mean: String,
     val language: Int
 )
 
-data class Language (
+data class DBLanguage (
     val id: Int,
     val name: String
+)
+
+data class TranslatedWord(
+    val translation_id: Int,
+    val word_id: Int,
+    val word: String,
+    val mean: String,
+    val language: String
 )
