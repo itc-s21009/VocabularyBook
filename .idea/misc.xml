@@ -3,14 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1915" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1915" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_word_add.xml" value="0.18385416666666668" />
-        <entry key="app/src/main/res/layout/activity_word_details.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_word_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_word_list.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_word_search.xml" value="0.25" />
         <entry key="app/src/main/res/layout/category_row.xml" value="0.33" />
         <entry key="app/src/main/res/layout/popup_add_category.xml" value="0.25" />
         <entry key="app/src/main/res/layout/popup_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/search_result_row.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/layout/word_detail_row.xml" value="0.33" />
         <entry key="app/src/main/res/layout/word_row.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu_context_category.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/menu/menu_context_word.xml" value="0.18333333333333332" />

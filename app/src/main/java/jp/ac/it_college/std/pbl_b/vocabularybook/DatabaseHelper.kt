@@ -53,8 +53,8 @@ class DatabaseHelper(context: Context) :
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
     }
 
-    fun getCategoryList(): List<Category> {
-        val list = mutableListOf<Category>()
+    fun getCategoryList(): List<DBCategory> {
+        val list = mutableListOf<DBCategory>()
         val sql = "SELECT * FROM cate_table"
         val cursor = readableDatabase.rawQuery(sql, null)
         while (cursor.moveToNext()) {
@@ -62,15 +62,15 @@ class DatabaseHelper(context: Context) :
             val idxName = cursor.getColumnIndexOrThrow("cate_name")
             val id = cursor.getInt(idxId)
             val name = cursor.getString(idxName)
-            val categoryModel = Category(id, name)
+            val categoryModel = DBCategory(id, name)
             list.add(categoryModel)
         }
         cursor.close()
         return list
     }
 
-    fun getWordsList(cate_id: Int): List<Word> {
-        val list = mutableListOf<Word>()
+    fun getWordsList(cate_id: Int): List<DBWord> {
+        val list = mutableListOf<DBWord>()
         val sql = "SELECT * FROM word_table WHERE cate_number = $cate_id"
         val cursor = readableDatabase.rawQuery(sql, null)
         while (cursor.moveToNext()) {
@@ -78,7 +78,7 @@ class DatabaseHelper(context: Context) :
             val idxWord = cursor.getColumnIndexOrThrow("word")
             val wordId = cursor.getInt(idxWordId)
             val word = cursor.getString(idxWord)
-            val wordModel = Word(cate_id, wordId, word)
+            val wordModel = DBWord(cate_id, wordId, word)
             list.add(wordModel)
         }
         cursor.close()
@@ -99,10 +99,10 @@ class DatabaseHelper(context: Context) :
         statement.executeUpdateDelete()
     }
 
-    fun findCategoryById(cate_id: Long) : Category? {
+    fun findCategoryById(cate_id: Long): DBCategory? {
         val sql = "SELECT * FROM cate_table WHERE cate_number = $cate_id"
         val cursor = readableDatabase.rawQuery(sql, null)
-        return if (cursor.moveToNext()) Category(cursor.getInt(1), cursor.getString(2)) else null
+        return if (cursor.moveToNext()) DBCategory(cursor.getInt(1), cursor.getString(2)) else null
     }
 
     fun registerWord(cate_id: Long, word: String) {
@@ -120,11 +120,12 @@ class DatabaseHelper(context: Context) :
         statement.executeUpdateDelete()
     }
 
-    fun findWordById(word_id: Long) : Word? {
+    fun findWordById(word_id: Long): DBWord? {
         val sql = "SELECT * FROM word_table WHERE word_id = $word_id"
         val cursor = readableDatabase.rawQuery(sql, null)
         return if (cursor.moveToNext())
-            Word(cursor.getInt(1),
+            DBWord(
+                cursor.getInt(1),
                 cursor.getInt(2),
                 cursor.getString(3)
             ) else null
@@ -152,11 +153,11 @@ class DatabaseHelper(context: Context) :
         statement.executeUpdateDelete()
     }
 
-    fun findTranslationById(translation_id: Long) : Translation? {
+    fun findTranslationById(translation_id: Long): DBTranslation? {
         val sql = "SELECT * FROM translation_table WHERE language_id = $translation_id"
         val cursor = readableDatabase.rawQuery(sql, null)
         return if (cursor.moveToNext())
-            Translation(
+            DBTranslation(
                 cursor.getInt(1),
                 cursor.getInt(2),
                 cursor.getString(3),
@@ -178,13 +179,36 @@ class DatabaseHelper(context: Context) :
         statement.executeUpdateDelete()
     }
 
-    fun findLanguageById(language_id: Long) : Language? {
+    fun findLanguageById(language_id: Long): DBLanguage? {
         val sql = "SELECT * FROM language_table WHERE language_id = $language_id"
         val cursor = readableDatabase.rawQuery(sql, null)
         return if (cursor.moveToNext())
-            Language(
+            DBLanguage(
                 cursor.getInt(1),
                 cursor.getString(2)
             ) else null
+    }
+
+    fun getTranslatedWords(word_id: Long): List<TranslatedWord> {
+        val sql = """
+            |SELECT word_table.word_id, word, language_mean, language_name
+            | FROM word_table, translation_table, language_table
+            | WHERE word_table.word_id = $word_id
+            | AND translation_table.word_id = word_table.word_id
+            | AND language_table.language_id = translation_table.language
+            """.trimMargin()
+        val cursor = readableDatabase.rawQuery(sql, null)
+        val list = mutableListOf<TranslatedWord>()
+        while (cursor.moveToNext()) {
+            list.add(
+                TranslatedWord(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3)
+                )
+            )
+        }
+        return list
     }
 }

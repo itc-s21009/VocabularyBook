@@ -15,7 +15,7 @@ class WordListActivity : AppCompatActivity() {
 
     private val helper = DatabaseHelper(this)
 
-    private lateinit var wordsListRaw: List<Word>
+    private lateinit var wordsListRaw: List<DBWord>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,6 @@ class WordListActivity : AppCompatActivity() {
         val category = intent.getStringExtra("CATE_NAME")
         title = "${getString(R.string.category)} --- $category"
         drawWordList()
-        val wordIdList = wordsListRaw.map { it.id.toLong() }
         val wordsList =  wordsListRaw.map { it.word }
         binding.btBack.setOnClickListener{
             finish()
@@ -63,12 +62,10 @@ class WordListActivity : AppCompatActivity() {
         val listPosition = info.position
         when (item.itemId) {
             R.id.itDetail -> {
-                val wordIdList = wordsListRaw.map { it.id.toLong() }
-                showWordDetailsActivity(wordIdList[listPosition])
+                showWordDetailsActivity(wordsListRaw[listPosition])
             }
             R.id.itRemove -> {
-                val wordIdList = wordsListRaw.map { it.id.toLong() }
-                helper.deleteWord(wordIdList[listPosition])
+                helper.deleteWord(wordsListRaw[listPosition].id.toLong())
                 drawWordList()
             }
             else -> returnVal = super.onContextItemSelected(item)
@@ -76,22 +73,21 @@ class WordListActivity : AppCompatActivity() {
         return returnVal
     }
 
-    private fun showWordDetailsActivity(wordId: Long) {
+    private fun showWordDetailsActivity(word: DBWord) {
         val intent = Intent(this, WordDetailsActivity::class.java)
-        intent.putExtra("WORD_ID", wordId)
+        intent.putExtra("WORD_ID", word.id.toLong())
+        intent.putExtra("WORD_NAME", word.word)
         startActivity(intent)
     }
 
     private fun drawWordList() {
         val categoryId = intent.getIntExtra("CATE_ID", 0)
         wordsListRaw = helper.getWordsList(categoryId)
-        val wordIdList = wordsListRaw.map { it.id.toLong() }
         val wordsList =  wordsListRaw.map { it.word }
         binding.lvWordList.adapter = ArrayAdapter(
             this@WordListActivity,R.layout.word_row, wordsList)
         binding.lvWordList.setOnItemClickListener{ _, _, position, _ ->
-            val wordId = wordIdList[position]
-            showWordDetailsActivity(wordId)
+            showWordDetailsActivity(wordsListRaw[position])
         }
     }
 }

@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val helper = DatabaseHelper(this)
     private lateinit var mPopupWindow: PopupWindow
-    private lateinit var categoryListRaw: List<Category>
+    private lateinit var categoryListRaw: List<DBCategory>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showWordListActivity(category: Category) {
+    private fun showWordListActivity(category: DBCategory) {
         val intent = Intent(this, WordListActivity::class.java)
         intent.putExtra("CATE_ID", category.id)
         intent.putExtra("CATE_NAME", category.name)
