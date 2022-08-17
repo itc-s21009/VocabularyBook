@@ -24,6 +24,7 @@ data class DBLanguage (
 )
 
 data class TranslatedWord(
+    val translation_id: Int,
     val word_id: Int,
     val word: String,
     val mean: String,

@@ -17,6 +17,7 @@
         <entry key="app/src/main/res/layout/word_detail_row.xml" value="0.33" />
         <entry key="app/src/main/res/layout/word_row.xml" value="0.33" />
         <entry key="app/src/main/res/menu/menu_context_category.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/menu/menu_context_translated_word.xml" value="0.18177083333333333" />
         <entry key="app/src/main/res/menu/menu_context_word.xml" value="0.18333333333333332" />
       </map>
     </option>

@@ -191,7 +191,7 @@ class DatabaseHelper(context: Context) :
 
     fun getTranslatedWords(word_id: Long): List<TranslatedWord> {
         val sql = """
-            |SELECT word_table.word_id, word, language_mean, language_name
+            |SELECT translation_table.language_id, word_table.word_id, word, language_mean, language_name
             | FROM word_table, translation_table, language_table
             | WHERE word_table.word_id = $word_id
             | AND translation_table.word_id = word_table.word_id
@@ -203,9 +203,10 @@ class DatabaseHelper(context: Context) :
             list.add(
                 TranslatedWord(
                     cursor.getInt(0),
-                    cursor.getString(1),
+                    cursor.getInt(1),
                     cursor.getString(2),
-                    cursor.getString(3)
+                    cursor.getString(3),
+                    cursor.getString(4)
                 )
             )
         }
