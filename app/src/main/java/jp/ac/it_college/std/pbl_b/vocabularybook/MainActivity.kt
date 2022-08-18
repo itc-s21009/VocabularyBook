@@ -24,6 +24,41 @@ class MainActivity : AppCompatActivity() {
         title = getString(R.string.app_name)
         drawCategoryList()
         registerForContextMenu(binding.lvCategory)
+        initPopupWindow()
+    }
+
+    override fun onDestroy() {
+        if (mPopupWindow.isShowing) {
+            mPopupWindow.dismiss()
+        }
+        super.onDestroy()
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menuInflater.inflate(R.menu.menu_context_category, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        var returnVal = true
+        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
+        val listPosition = info.position
+        when (item.itemId) {
+            R.id.itRemoveCategory -> {
+                val category = categoryListRaw[listPosition]
+                helper.deleteCategory(category.id.toLong())
+                drawCategoryList()
+            }
+            else -> returnVal = super.onContextItemSelected(item)
+        }
+        return returnVal
+    }
+
+    private fun initPopupWindow() {
         mPopupWindow = PopupWindow(this@MainActivity)
         val view = PopupAddCategoryBinding.inflate(layoutInflater)
         view.btBack.setOnClickListener {
@@ -56,37 +91,6 @@ class MainActivity : AppCompatActivity() {
             view.etAddCategory.setText(R.string.empty)
             mPopupWindow.showAtLocation(binding.btAddCategory, Gravity.CENTER, 0, 0)
         }
-    }
-
-    override fun onDestroy() {
-        if (mPopupWindow.isShowing) {
-            mPopupWindow.dismiss()
-        }
-        super.onDestroy()
-    }
-
-    override fun onCreateContextMenu(
-        menu: ContextMenu?,
-        v: View?,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        menuInflater.inflate(R.menu.menu_context_category, menu)
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        var returnVal = true
-        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
-        val listPosition = info.position
-        when (item.itemId) {
-            R.id.itRemoveCategory -> {
-                val category = categoryListRaw[listPosition]
-                helper.deleteCategory(category.id.toLong())
-                drawCategoryList()
-            }
-            else -> returnVal = super.onContextItemSelected(item)
-        }
-        return returnVal
     }
 
     private fun drawCategoryList() {

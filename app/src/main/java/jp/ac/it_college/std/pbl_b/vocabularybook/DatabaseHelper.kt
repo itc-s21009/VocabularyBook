@@ -162,6 +162,19 @@ class DatabaseHelper(context: Context) :
         statement.executeInsert()
     }
 
+    fun updateTranslation(translation_id: Long, mean: String, language: Long) {
+        val sql = """
+            |UPDATE translation_table
+            | SET language_mean = ?, language = ?
+            | WHERE language_id = ?
+        """.trimMargin()
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindString(1, mean)
+        statement.bindLong(2, language)
+        statement.bindLong(3, translation_id)
+        statement.executeUpdateDelete()
+    }
+
     fun deleteTranslation(translation_id: Long) {
         val sql = "DELETE FROM translation_table WHERE language_id = ?"
         val statement = writableDatabase.compileStatement(sql)
