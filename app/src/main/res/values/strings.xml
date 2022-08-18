@@ -13,4 +13,9 @@
     <string name="it_remove">削除</string>
     <string name="it_detail">詳細</string>
     <string name="it_edit">編集</string>
+    <string name="popup_add_category">新しくカテゴリを追加する</string>
+    <string name="popup_add_word_detail">新しく単語の意味を追加する</string>
+    <string name="popup_edit_word_detail">単語の意味を変更する</string>
+    <string name="language">言語</string>
+    <string name="meaning">意味</string>
 </resources>

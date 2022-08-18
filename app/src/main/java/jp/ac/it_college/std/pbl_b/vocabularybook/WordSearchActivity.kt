@@ -1,8 +1,10 @@
 package jp.ac.it_college.std.pbl_b.vocabularybook
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
+import android.util.Log
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityWordSearchBinding
 
@@ -12,7 +14,9 @@ class WordSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWordSearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val wordList = intent.getStringArrayExtra("WORD_LIST")
+        val wordNameList = intent.getStringArrayExtra("WORD_LIST") ?: arrayOf()
+        val wordIdList = intent.getIntArrayExtra("WORD_ID_LIST") ?: intArrayOf()
+        val wordList = wordIdList.zip(wordNameList).map { DBWord(0, it.first, it.second) }
         binding.edWord.setOnKeyListener { _, _, _ ->
             drawResult(wordList)
             false
@@ -20,16 +24,34 @@ class WordSearchActivity : AppCompatActivity() {
         binding.btWordSearch.setOnClickListener {
             drawResult(wordList)
         }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun drawResult(wordList: Array<String>?) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun drawResult(wordList: List<DBWord>) {
         val searchWord = binding.edWord.text.toString()
-        val resultList = mutableListOf<String>()
-        wordList?.forEach { resultList.add(it) }
         binding.lvSearchResult.adapter = ArrayAdapter(
             this@WordSearchActivity,
             R.layout.word_row,
-            resultList.filter { it.contains(searchWord) }
+            wordList.map{it.word}.filter { it.contains(searchWord) }
         )
+        binding.lvSearchResult.setOnItemClickListener { _, _, position, _ ->
+            showWordDetailsActivity(wordList[position])
+        }
+    }
+
+    private fun showWordDetailsActivity(word: DBWord) {
+        val intent = Intent(this, WordDetailsActivity::class.java)
+        intent.putExtra("WORD_ID", word.id.toLong())
+        intent.putExtra("WORD_NAME", word.word)
+        startActivity(intent)
     }
 }

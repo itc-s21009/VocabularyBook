@@ -85,6 +85,22 @@ class DatabaseHelper(context: Context) :
         return list
     }
 
+    fun getLanguagesList(): List<DBLanguage> {
+        val list = mutableListOf<DBLanguage>()
+        val sql = "SELECT * FROM language_table"
+        val cursor = readableDatabase.rawQuery(sql, null)
+        while (cursor.moveToNext()) {
+            val idxLanguageId = cursor.getColumnIndexOrThrow("language_id")
+            val idxLanguageName = cursor.getColumnIndexOrThrow("language_name")
+            val languageId = cursor.getInt(idxLanguageId)
+            val language = cursor.getString(idxLanguageName)
+            val languageModel = DBLanguage(languageId, language)
+            list.add(languageModel)
+        }
+        cursor.close()
+        return list
+    }
+
     fun registerCategory(name: String) {
         val sql = "INSERT INTO cate_table (cate_name) VALUES (?)"
         val statement = writableDatabase.compileStatement(sql)
@@ -144,6 +160,19 @@ class DatabaseHelper(context: Context) :
         statement.bindString(2, mean)
         statement.bindLong(3, language)
         statement.executeInsert()
+    }
+
+    fun updateTranslation(translation_id: Long, mean: String, language: Long) {
+        val sql = """
+            |UPDATE translation_table
+            | SET language_mean = ?, language = ?
+            | WHERE language_id = ?
+        """.trimMargin()
+        val statement = writableDatabase.compileStatement(sql)
+        statement.bindString(1, mean)
+        statement.bindLong(2, language)
+        statement.bindLong(3, translation_id)
+        statement.executeUpdateDelete()
     }
 
     fun deleteTranslation(translation_id: Long) {
