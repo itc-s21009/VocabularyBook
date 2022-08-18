@@ -85,6 +85,22 @@ class DatabaseHelper(context: Context) :
         return list
     }
 
+    fun getLanguagesList(): List<DBLanguage> {
+        val list = mutableListOf<DBLanguage>()
+        val sql = "SELECT * FROM language_table"
+        val cursor = readableDatabase.rawQuery(sql, null)
+        while (cursor.moveToNext()) {
+            val idxLanguageId = cursor.getColumnIndexOrThrow("language_id")
+            val idxLanguageName = cursor.getColumnIndexOrThrow("language_name")
+            val languageId = cursor.getInt(idxLanguageId)
+            val language = cursor.getString(idxLanguageName)
+            val languageModel = DBLanguage(languageId, language)
+            list.add(languageModel)
+        }
+        cursor.close()
+        return list
+    }
+
     fun registerCategory(name: String) {
         val sql = "INSERT INTO cate_table (cate_name) VALUES (?)"
         val statement = writableDatabase.compileStatement(sql)

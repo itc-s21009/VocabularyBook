@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="16dp"
@@ -10,39 +9,52 @@
     android:paddingBottom="16dp">
 
     <TextView
-        android:id="@+id/tvAddCategory"
+        android:id="@+id/tvAddDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/popup_add_category"
-        app:layout_constraintStart_toStartOf="@+id/etAddCategory"
+        android:text="@string/popup_add_word_detail"
+        app:layout_constraintStart_toStartOf="@+id/etAddDetail"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etAddCategory"
+    <Spinner
+        android:id="@+id/spLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/language"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="@+id/etAddDetail"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddDetail" />
+
+    <EditText
+        android:id="@+id/etAddDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="@string/category_name"
+        android:hint="@string/meaning"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddCategory" />
+        app:layout_constraintTop_toBottomOf="@+id/spLanguage" />
 
     <Button
         android:id="@+id/btBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/bt_back"
-        app:layout_constraintStart_toStartOf="@+id/etAddCategory"
-        app:layout_constraintTop_toBottomOf="@+id/etAddCategory" />
+        app:layout_constraintStart_toStartOf="@+id/etAddDetail"
+        app:layout_constraintTop_toBottomOf="@+id/etAddDetail" />
 
     <Button
-        android:id="@+id/btAddCategoryConfirm"
+        android:id="@+id/btAddDetailConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add"
-        app:layout_constraintEnd_toEndOf="@+id/etAddCategory"
-        app:layout_constraintTop_toBottomOf="@+id/etAddCategory" />
+        app:layout_constraintEnd_toEndOf="@+id/etAddDetail"
+        app:layout_constraintTop_toBottomOf="@+id/etAddDetail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

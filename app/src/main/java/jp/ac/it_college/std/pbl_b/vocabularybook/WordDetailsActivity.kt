@@ -2,18 +2,23 @@ package jp.ac.it_college.std.pbl_b.vocabularybook
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.MenuItem
-import android.view.View
+import android.util.Log
+import android.util.TypedValue
+import android.view.*
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.PopupWindow
 import android.widget.SimpleAdapter
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityWordDetailsBinding
+import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.PopupAddWordDetailBinding
 
 class WordDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWordDetailsBinding
 
     private val helper = DatabaseHelper(this)
+    private lateinit var mPopupWindow: PopupWindow
     private lateinit var translatedListRaw: List<TranslatedWord>
+    private lateinit var languageListRaw: List<DBLanguage>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +31,45 @@ class WordDetailsActivity : AppCompatActivity() {
         binding.JpLang.text = wordName
         drawTranslatedList()
         registerForContextMenu(binding.lvDetails)
+        mPopupWindow = PopupWindow(this@WordDetailsActivity)
+        val view = PopupAddWordDetailBinding.inflate(layoutInflater)
+        view.btBack.setOnClickListener {
+            if (mPopupWindow.isShowing) {
+                mPopupWindow.dismiss()
+            }
+        }
+        view.btAddDetailConfirm.setOnClickListener {
+            val wordId = intent.getLongExtra("WORD_ID", 0)
+            val text = view.etAddDetail.text.toString()
+            val language = languageListRaw[view.spLanguage.selectedItemPosition]
+            if (text.isEmpty()) {
+                return@setOnClickListener
+            }
+            helper.registerTranslation(wordId, text, language.id.toLong())
+            drawTranslatedList()
+            mPopupWindow.dismiss()
+        }
+        mPopupWindow.contentView = view.root
+        mPopupWindow.isOutsideTouchable = true
+        mPopupWindow.isFocusable = true
+        val width = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            300f,
+            resources.displayMetrics
+        )
+        mPopupWindow.setBackgroundDrawable(getDrawable(R.drawable.popup_background))
+        mPopupWindow.setWindowLayoutMode(width.toInt(), WindowManager.LayoutParams.WRAP_CONTENT)
+        mPopupWindow.width = width.toInt()
+        mPopupWindow.height = WindowManager.LayoutParams.WRAP_CONTENT
+        binding.btAddDetail.setOnClickListener {
+            view.etAddDetail.setText(R.string.empty)
+            languageListRaw = helper.getLanguagesList()
+            view.spLanguage.adapter = ArrayAdapter(
+                this, android.R.layout.simple_list_item_1,
+                languageListRaw.map { it.name }
+            )
+            mPopupWindow.showAtLocation(binding.btAddDetail, Gravity.CENTER, 0, 0)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
