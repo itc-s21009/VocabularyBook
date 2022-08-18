@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -24,12 +25,6 @@ class WordListActivity : AppCompatActivity() {
         val category = intent.getStringExtra("CATE_NAME")
         title = "${getString(R.string.category)} --- $category"
         drawWordList()
-        val wordsList =  wordsListRaw.map { it.word }
-        binding.btSearch.setOnClickListener{
-            val intent = Intent(this, WordSearchActivity::class.java)
-            intent.putExtra("WORD_LIST", wordsList.toTypedArray())
-            startActivity(intent)
-        }
         registerForContextMenu(binding.lvWordList)
 //        binding.btAddWord.setOnClickListener{
 //            val intent = Intent(this, WordDetailsActivity::class.java)
@@ -41,11 +36,19 @@ class WordListActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == android.R.id.home) {
-            finish()
-            true
-        } else {
-            super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            R.id.itSearch -> {
+                val intent = Intent(this, WordSearchActivity::class.java)
+                val wordsList =  wordsListRaw.map { it.word }
+                intent.putExtra("WORD_LIST", wordsList.toTypedArray())
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -78,6 +81,11 @@ class WordListActivity : AppCompatActivity() {
             else -> returnVal = super.onContextItemSelected(item)
         }
         return returnVal
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_action_search, menu)
+        return true
     }
 
     private fun showWordDetailsActivity(word: DBWord) {
