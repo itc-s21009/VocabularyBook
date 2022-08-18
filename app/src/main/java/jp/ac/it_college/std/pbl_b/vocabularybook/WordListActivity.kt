@@ -43,8 +43,8 @@ class WordListActivity : AppCompatActivity() {
             }
             R.id.itSearch -> {
                 val intent = Intent(this, WordSearchActivity::class.java)
-                val wordsList =  wordsListRaw.map { it.word }
-                intent.putExtra("WORD_LIST", wordsList.toTypedArray())
+                intent.putExtra("WORD_ID_LIST", wordsListRaw.map { it.id }.toIntArray())
+                intent.putExtra("WORD_LIST", wordsListRaw.map { it.word }.toTypedArray())
                 startActivity(intent)
                 true
             }
