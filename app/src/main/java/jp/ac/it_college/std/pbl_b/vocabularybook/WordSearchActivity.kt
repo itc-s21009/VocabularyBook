@@ -2,7 +2,7 @@ package jp.ac.it_college.std.pbl_b.vocabularybook
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityWordSearchBinding
 
@@ -19,6 +19,16 @@ class WordSearchActivity : AppCompatActivity() {
         }
         binding.btWordSearch.setOnClickListener {
             drawResult(wordList)
+        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
     }
 

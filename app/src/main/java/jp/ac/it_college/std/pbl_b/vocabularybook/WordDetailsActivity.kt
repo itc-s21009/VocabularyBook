@@ -41,13 +41,12 @@ class WordDetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        var returnVal = true
-        if (item.itemId == android.R.id.home) {
+        return if (item.itemId == android.R.id.home) {
             finish()
+            true
         } else {
-            returnVal = super.onOptionsItemSelected(item)
+            super.onOptionsItemSelected(item)
         }
-        return returnVal
     }
 
     override fun onCreateContextMenu(
@@ -76,7 +75,13 @@ class WordDetailsActivity : AppCompatActivity() {
                 bindingEditDetail.spLanguage.setSelection(
                     languageNamesList.indexOf(translatedWord.language)
                 )
-                popupEditDetail.showAtLocation(binding.lvDetails, Gravity.CENTER, 0, 0, translatedWord.translation_id)
+                popupEditDetail.showAtLocation(
+                    binding.lvDetails,
+                    Gravity.CENTER,
+                    0,
+                    0,
+                    translatedWord.translation_id
+                )
             }
             R.id.itRemoveTranslatedWord -> {
                 val translatedId = translatedListRaw[listPosition].translation_id.toLong()
@@ -150,7 +155,11 @@ class WordDetailsActivity : AppCompatActivity() {
             if (text.isEmpty()) {
                 return@setOnClickListener
             }
-            helper.updateTranslation(popupEditDetail.translateId.toLong(), text, language.id.toLong())
+            helper.updateTranslation(
+                popupEditDetail.translateId.toLong(),
+                text,
+                language.id.toLong()
+            )
             drawTranslatedList()
             popupEditDetail.dismiss()
         }
@@ -180,14 +189,14 @@ class WordDetailsActivity : AppCompatActivity() {
 
 class PopupEditDetail(context: Context) : PopupWindow(context) {
     var translateId: Int = 0
-    get() {
-        Log.i("Test", "$field")
-        return field
-    }
-    set(value) {
-        Log.i("Test", "$field -> $value")
-        field = value
-    }
+        get() {
+            Log.i("Test", "$field")
+            return field
+        }
+        set(value) {
+            Log.i("Test", "$field -> $value")
+            field = value
+        }
 
     fun showAtLocation(parent: View?, gravity: Int, x: Int, y: Int, translate_id: Int) {
         this.translateId = translate_id

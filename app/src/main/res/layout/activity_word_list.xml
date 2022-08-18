@@ -7,14 +7,6 @@
     tools:context=".WordListActivity" >
 
     <Button
-        android:id="@+id/btBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/bt_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/btSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,5 +37,5 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btBack" />
+        app:layout_constraintTop_toBottomOf="@+id/btSearch" />
 </androidx.constraintlayout.widget.ConstraintLayout>

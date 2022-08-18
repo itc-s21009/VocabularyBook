@@ -25,9 +25,6 @@ class WordListActivity : AppCompatActivity() {
         title = "${getString(R.string.category)} --- $category"
         drawWordList()
         val wordsList =  wordsListRaw.map { it.word }
-        binding.btBack.setOnClickListener{
-            finish()
-        }
         binding.btSearch.setOnClickListener{
             val intent = Intent(this, WordSearchActivity::class.java)
             intent.putExtra("WORD_LIST", wordsList.toTypedArray())
@@ -40,6 +37,16 @@ class WordListActivity : AppCompatActivity() {
 //            intent.putExtra("CATE_ID", categoryId)
 //            startActivity(intent)
 //        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {
