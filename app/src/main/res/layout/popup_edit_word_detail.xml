@@ -54,7 +54,7 @@
         android:id="@+id/btEditDetailConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add"
+        android:text="@string/save"
         app:layout_constraintEnd_toEndOf="@+id/etEditDetail"
         app:layout_constraintTop_toBottomOf="@+id/etEditDetail" />
 </androidx.constraintlayout.widget.ConstraintLayout>
