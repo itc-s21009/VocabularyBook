@@ -23,16 +23,21 @@ class WordListActivity : AppCompatActivity() {
         binding = ActivityWordListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val category = intent.getStringExtra("CATE_NAME")
+        val categoryId = intent.getIntExtra("CATE_ID", 0)
         title = "${getString(R.string.category)} --- $category"
-        drawWordList()
         registerForContextMenu(binding.lvWordList)
-//        binding.btAddWord.setOnClickListener{
-//            val intent = Intent(this, WordDetailsActivity::class.java)
-//            intent.putExtra("CATE_NAME", category)
-//            intent.putExtra("CATE_ID", categoryId)
-//            startActivity(intent)
-//        }
+        binding.btAddWord.setOnClickListener{
+            val intent = Intent(this, WordAddActivity::class.java)
+            intent.putExtra("CATE_NAME", category)
+            intent.putExtra("CATE_ID", categoryId)
+            startActivity(intent)
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onResume() {
+        drawWordList()
+        super.onResume()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

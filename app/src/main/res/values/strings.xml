@@ -19,4 +19,5 @@
     <string name="language">言語</string>
     <string name="meaning">意味</string>
     <string name="save">保存</string>
+    <string name="add_word">単語を追加する</string>
 </resources>
