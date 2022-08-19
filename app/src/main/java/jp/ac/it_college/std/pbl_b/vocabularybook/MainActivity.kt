@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityMainBinding
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.PopupAddCategoryBinding

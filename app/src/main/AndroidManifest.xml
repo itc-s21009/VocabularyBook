@@ -14,12 +14,14 @@
         android:theme="@style/Theme.VocabularyBook"
         tools:targetApi="31">
         <activity
+            android:name=".WordAddActivity"
+            android:exported="false" />
+        <activity
             android:name=".WordDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".WordSearchActivity"
-            android:exported="true" >
-        </activity>
+            android:exported="true"/>
         <activity
             android:name=".WordListActivity"
             android:exported="false" />

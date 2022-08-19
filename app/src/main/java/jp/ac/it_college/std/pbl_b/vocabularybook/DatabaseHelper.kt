@@ -47,7 +47,16 @@ class DatabaseHelper(context: Context) :
             |)
         """.trimMargin()
         db?.execSQL(sql)
-        Log.i("db", "onCreate called.")
+
+        sql = """
+            |INSERT INTO language_table (language_name) VALUES
+            | ("英語"),
+            | ("中国語"),
+            | ("韓国語"),
+            | ("フランス語"),
+            | ("ドイツ語")
+        """.trimMargin()
+        db?.execSQL(sql)
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {

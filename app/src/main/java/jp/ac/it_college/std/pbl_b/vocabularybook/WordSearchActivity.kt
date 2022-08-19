@@ -3,7 +3,6 @@ package jp.ac.it_college.std.pbl_b.vocabularybook
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import jp.ac.it_college.std.pbl_b.vocabularybook.databinding.ActivityWordSearchBinding
@@ -38,13 +37,14 @@ class WordSearchActivity : AppCompatActivity() {
 
     private fun drawResult(wordList: List<DBWord>) {
         val searchWord = binding.edWord.text.toString()
+        val filteredWordList = wordList.filter { it.word.contains(searchWord) }
         binding.lvSearchResult.adapter = ArrayAdapter(
             this@WordSearchActivity,
             R.layout.word_row,
-            wordList.map{it.word}.filter { it.contains(searchWord) }
+            filteredWordList.map{it.word}
         )
         binding.lvSearchResult.setOnItemClickListener { _, _, position, _ ->
-            showWordDetailsActivity(wordList[position])
+            showWordDetailsActivity(filteredWordList[position])
         }
     }
 
